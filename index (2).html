@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Other Question | ColezTrades</title>
+<meta name="description" content="Direction is hard to predict. Size is easier. A plain-English introduction to volatility for technical traders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050810;
+  --bg-top: #0b1426;
+  --panel: #0a0f1d;
+  --line: #1a2236;
+  --text: #aab3c5;
+  --strong: #f4f6fb;
+  --muted: #6b7690;
+  --blue: #6ea0ff;
+  --amber: #f2b84b;
+  --purple: #a193f5;
+  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg-top) 0, var(--bg) 420px) no-repeat, var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(5, 8, 16, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.topbar-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0 24px;
+}
+.topbar-row {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  height: 64px; gap: 16px;
+}
+.back-link {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none; color: var(--text); display: inline-flex; align-items: center; gap: 12px;
+  justify-self: start;
+}
+.back-link:hover { color: var(--strong); }
+.lesson-title { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--strong); text-align: center; white-space: nowrap; }
+.counter { font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; color: var(--text); justify-self: end; }
+.progress { display: flex; gap: 6px; padding-bottom: 0; }
+.progress button {
+  flex: 1; height: 4px; padding: 0; border: 0; border-radius: 2px; background: var(--line); cursor: pointer;
+  position: relative;
+}
+.progress button::after { content: ""; position: absolute; inset: -10px 0; }
+.progress button.done { background: var(--blue); }
+
+main { max-width: 760px; margin: 0 auto; padding: 72px 24px 190px; }
+main.wide { max-width: 760px; }
+.slide[hidden] { display: none; }
+.js .slide { animation: enter 0.35s ease both; }
+@keyframes enter { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .js .slide { animation: none; } }
+
+h2.slide-title {
+  font-family: var(--serif); font-weight: 500; color: var(--strong);
+  font-size: clamp(32px, 5vw, 46px); line-height: 1.15; margin: 0 0 28px; letter-spacing: -0.005em;
+}
+h2.slide-title:focus { outline: none; }
+.statement {
+  font-family: var(--serif); font-weight: 500; color: var(--strong);
+  font-size: clamp(30px, 5vw, 44px); line-height: 1.22; margin: 0 0 44px;
+}
+.statement em { color: var(--blue); font-style: italic; font-weight: 600; }
+p { margin: 0 0 24px; }
+p strong { color: var(--strong); font-weight: 500; }
+
+.pull {
+  margin: 40px 0; padding: 26px 30px;
+  border-left: 3px solid var(--blue);
+  background: linear-gradient(90deg, #0d1424 0%, rgba(13, 20, 36, 0) 100%);
+  font-family: var(--serif); font-size: clamp(22px, 3vw, 27px); line-height: 1.4; color: #e9edf7;
+}
+.pull p { margin: 0; }
+
+.callout {
+  margin: 40px 0; padding: 26px 30px; border-radius: 14px; border: 1px solid; border-left-width: 3px;
+}
+.callout .label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; margin: 0 0 18px;
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout.amber { background: #13100a; border-color: #4d3a14; }
+.callout.amber .label { color: var(--amber); }
+.callout.purple { background: #0e0c1e; border-color: #38316b; }
+.callout.purple .label { color: var(--purple); }
+
+.card {
+  margin: 36px 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden;
+}
+.card-row { display: grid; grid-template-columns: 44px 1fr; gap: 18px; padding: 24px 26px; border-top: 1px solid var(--line); }
+.card-row:first-child { border-top: 0; }
+.icon {
+  width: 44px; height: 44px; border-radius: 11px; background: #111a2e; border: 1px solid #1e2a45;
+  display: grid; place-items: center; color: var(--blue);
+}
+.icon svg { width: 22px; height: 22px; }
+.card-row h3 { margin: 0 0 4px; font-size: 17px; font-weight: 500; color: var(--strong); line-height: 1.4; }
+.card-row p { margin: 0; font-size: 16px; line-height: 1.7; }
+
+.chart-wrap {
+  margin: 36px 0; border-radius: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.chart-wrap svg { display: block; min-width: 640px; width: 100%; height: auto; }
+.chart-wrap .ts { font: 400 12px var(--sans); }
+.chart-wrap .th { font: 500 13px var(--sans); }
+
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none;
+  padding: 72px 24px 24px;
+  background: linear-gradient(to top, var(--bg) 52%, rgba(5, 8, 16, 0));
+}
+.nav-inner { max-width: 760px; margin: 0 auto; }
+.nav-buttons { display: flex; justify-content: space-between; pointer-events: none; }
+.nav button {
+  pointer-events: auto; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: #0a1224; color: var(--strong); border: 1px solid #25375e; border-radius: 12px;
+  padding: 16px 24px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+}
+.nav button:hover:not(:disabled) { border-color: var(--blue); }
+.nav button:disabled { opacity: 0.35; cursor: default; }
+.nav svg { width: 20px; height: 20px; }
+.hint { margin: 14px 0 0; text-align: center; font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted); }
+
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  .topbar-inner { padding: 0 16px; }
+  .topbar-row { grid-template-columns: auto 1fr auto; height: 56px; }
+  .lesson-title { font-size: 18px; overflow: hidden; text-overflow: ellipsis; }
+  .back-link span.txt { display: none; }
+  main { padding: 44px 20px 180px; }
+  .pull, .callout { padding: 22px 20px; }
+  .card-row { padding: 20px 18px; gap: 14px; }
+  .nav { padding: 56px 16px 16px; }
+  .hint { display: none; }
+}
+.no-js .slide[hidden] { display: block; }
+</style>
+</head>
+<body class="no-js">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <a class="back-link" href="./" aria-label="Back to the bank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        <span class="txt">The bank</span>
+      </a>
+      <div class="lesson-title">The Other Question</div>
+      <div class="counter" aria-live="polite"><span id="cur">1</span> / <span id="tot">7</span></div>
+    </div>
+    <div class="progress" id="progress" role="tablist" aria-label="Lesson progress"></div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Slide 1 -->
+<section class="slide" aria-label="Slide 1" data-title="Direction is a coin flip. Size isn’t.">
+  <h2 class="slide-title" tabindex="-1">Direction is a coin flip. Size isn’t.</h2>
+  <p class="statement">Nobody can tell you <em>where</em> price goes today. Many people can tell you <em>how far</em>.</p>
+  <p><strong>You have spent years trying to answer the wrong question.</strong> Every chart you open asks the same thing: up or down? It is the question the whole industry is built around, and it is the one that is hardest to answer well. Even professionals are wrong about direction far more often than they would like to admit.</p>
+  <p><strong>There is a second question, and it is quieter.</strong> How much is price likely to move? Not which way, just how big. That question has a surprising amount of structure in it, and it is the subject of this lesson.</p>
+  <div class="pull"><p>You cannot say which way. You can often say how far.</p></div>
+  <p>You already know what a big move looks like, because you have watched one after NFP. This lesson is about the part you have not been shown: the size of a move is not random. It leaves clues before it arrives.</p>
+</section>
+
+<!-- Slide 2 -->
+<section class="slide" aria-label="Slide 2" data-title="Why volatility feels like something that happens to you" hidden>
+  <h2 class="slide-title" tabindex="-1">Why volatility feels like something that happens to you</h2>
+  <p class="statement">If volatility has only ever ambushed you, <em>that is not your fault</em>.</p>
+  <p><strong>Most traders see volatility as an event.</strong> Price is quiet, then NFP prints, then candles stretch off the screen. Nothing warned you, so it feels like lightning from a clear sky. Afterwards you either got caught on the wrong side or watched it go without you.</p>
+  <p><strong>A candlestick chart is built to show you price, not the size of moves.</strong> Support, resistance, patterns and trendlines all answer where price is. None of them tell you how much room price is likely to use. So the size of the next move never gets looked at, and it stays invisible until it has already happened.</p>
+  <div class="callout amber">
+    <p class="label">Why you were taught it this way</p>
+    <p>Because technical analysis grew up around one question, which is where price is and where it might turn. Volatility is a different question, and most technical material never asks it. It is not that anyone hid it from you. It sits outside the toolkit you were handed.</p>
+  </div>
+  <p><strong>Once you start asking the second question, the surprise goes.</strong> Moves that looked random start to look like they belong to a pattern. That is where the next slide begins.</p>
+</section>
+
+<!-- Slide 3 -->
+<section class="slide" aria-label="Slide 3" data-title="Storms follow storms" hidden>
+  <h2 class="slide-title" tabindex="-1">Storms follow storms</h2>
+  <p class="statement">You cannot forecast Thursday’s rain. <em>You can tell it has been a rough week.</em></p>
+  <p><strong>Think about the weather.</strong> Nobody can promise whether it will rain at 3pm on a given Thursday. But if the last four days have been stormy, you would not plan a barbecue. Rough weather tends to hang around, and calm weather tends to as well. You are not predicting the exact event. You are reading the conditions.</p>
+  <p><strong>Markets behave the same way.</strong> Big moves tend to be followed by more big moves, and quiet stretches tend to be followed by more quiet. This is called volatility clustering. It is one of the most consistently observed features of markets, and it is the reason size is easier to anticipate than direction.</p>
+  <div class="pull"><p>A big move is a clue about the next move’s size, even though it tells you nothing about its direction.</p></div>
+  <p><strong>This is why NFP feels like lightning but is not.</strong> The calm before a major release is not random calm. It is a known quiet before a known event, and what comes after tends to be wide, not narrow.</p>
+  <p><strong>Direction is far less predictable.</strong> A big green candle gives you little reliable information about whether the next one is green. But a big candle does make a big next candle more likely. That asymmetry is the whole opportunity.</p>
+</section>
+
+<!-- Slide 4 -->
+<section class="slide" aria-label="Slide 4" data-title="The three behaviours" hidden>
+  <h2 class="slide-title" tabindex="-1">The three behaviours</h2>
+  <p class="statement">Volatility is not random. <em>It behaves in three ways</em> you can learn to recognise.</p>
+  <div class="card">
+    <div class="card-row">
+      <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="10" r="2"/><circle cx="9" cy="13" r="2"/><circle cx="14" cy="16" r="2"/><circle cx="18" cy="18" r="1"/></svg></div>
+      <div><h3>It clusters</h3><p>Big ranges follow big ranges and small ranges follow small ones. When you see a wide day, treat the next one as more likely to be wide than average, not less.</p></div>
+    </div>
+    <div class="card-row">
+      <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></div>
+      <div><h3>It has a shape to the day</h3><p>Activity is not spread evenly across the 24 hours. The Asian session is typically the quietest stretch of the day, while London and New York are where most of the energy is released. The market has a rhythm, and volatility follows it.</p></div>
+    </div>
+    <div class="card-row">
+      <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div>
+      <div><h3>It returns to normal</h3><p>Extreme ranges do not last forever, and neither do dead ones. After a stretch that is unusually wide or unusually tight, conditions tend to drift back towards what is typical.</p></div>
+    </div>
+  </div>
+  <p><strong>Put those together and you have something useful.</strong> The market is quiet in a predictable place, loud in a predictable place, and it tends to stay in whatever mood it is in. None of that tells you direction. All of it helps you judge size.</p>
+  <div class="pull"><p>Direction is a guess. Size is a pattern.</p></div>
+</section>
+
+<!-- Slide 5 -->
+<section class="slide" aria-label="Slide 5" data-title="The ruler" hidden>
+  <h2 class="slide-title" tabindex="-1">The ruler</h2>
+  <p class="statement">If ranges cluster, the range that just formed is <em>a ruler for what comes next</em>.</p>
+  <p><strong>Here is the logical step.</strong> If volatility clusters, then the size of the most recent range is a useful guide to the size of the next one. You do not need a model for that. You need something that measures the range that has just formed and lays it out ahead of you.</p>
+  <p><strong>The Asian session gives you a clean one to measure.</strong> It is the quiet stretch before London, which makes it a tidy, well-defined box. For this lesson, the Asia range runs from 00:00 to 06:00 UK time, drawn on the 5 minute chart using the candle bodies for the top and bottom.</p>
+  <p><strong>A small Asia range and a large one tell you different things.</strong> A tight range says the market is in a quiet mood. A wide range says it is already active. The size of the box is the first piece of volatility information you have for the day, and it costs you nothing to read.</p>
+  <div class="pull"><p>The Asia range does not tell you where price goes. It tells you how big the steps are.</p></div>
+  <p><strong>Now turn it into a ruler.</strong> Take the size of that range and project it up and down in multiples of itself. Use set steps: 0 and 1 mark the two edges of the box, 0.5 is its midpoint, and 0.25 and 0.75 sit inside it. Beyond the box, add a line every half range (1.5, 2, 2.5 and so on, out to 10), on both sides. Every line is a fixed fraction of the same ruler. Small box, small steps. Big box, big steps. The levels stretch and shrink with the market’s own mood, and nobody has to calculate anything.</p>
+</section>
+
+<!-- Slide 6 -->
+<section class="slide" aria-label="Slide 6" data-title="Range extensions in practice" hidden>
+  <h2 class="slide-title" tabindex="-1">Range extensions in practice</h2>
+  <p class="statement">Two days, two rulers, <em>one level where they agree</em>.</p>
+  <p><strong>Start with the size of the two boxes.</strong> The Asia range on the 15th was roughly 66 pips. On the 16th it was roughly 29 pips. Same pair, one day apart, and the levels projected from each sit far apart on one day and close together on the other. That is volatility changing, made visible without any calculation.</p>
+  <p><strong>Now mark both days on one chart.</strong> Project the extensions from the current Asia range, then do the same from the previous one. Most of the lines will not line up. Occasionally two of them land within 2 pips of each other. Those are the levels worth marking.</p>
+
+  <figure class="chart-wrap" style="margin-left:0;margin-right:0">
+  <svg viewBox="0 0 680 490" role="img" aria-labelledby="ct cd">
+  <title id="ct">Asia range extensions on a EURUSD 5 minute chart, 16 October</title>
+  <desc id="cd">The Asia range from 00:00 to 06:00 UK is shaded. Extension levels from its top and bottom are projected across the day. Orange dashed lines are levels from the previous day’s range, and blue lines mark where the two sets agree. Price rallies into the upper blue level around midday and stalls.</desc>
+  <rect x="4" y="4" width="672" height="482" rx="8" fill="#131722" stroke="#2a2e39" stroke-width="0.5"/>
+  <g stroke="#1e222d" stroke-width="1">
+    <line x1="100" y1="71.25" x2="596" y2="71.25"/><line x1="100" y1="116.25" x2="596" y2="116.25"/><line x1="100" y1="161.25" x2="596" y2="161.25"/><line x1="100" y1="206.25" x2="596" y2="206.25"/><line x1="100" y1="251.25" x2="596" y2="251.25"/><line x1="100" y1="296.25" x2="596" y2="296.25"/><line x1="100" y1="341.25" x2="596" y2="341.25"/>
+    <line x1="100" y1="60" x2="100" y2="430"/><line x1="182.7" y1="60" x2="182.7" y2="430"/><line x1="265.3" y1="60" x2="265.3" y2="430"/><line x1="348" y1="60" x2="348" y2="430"/><line x1="430.6" y1="60" x2="430.6" y2="430"/><line x1="513.3" y1="60" x2="513.3" y2="430"/>
+  </g>
+  <line x1="596" y1="56" x2="596" y2="456" stroke="#2a2e39" stroke-width="1"/>
+  <line x1="12" y1="432" x2="676" y2="432" stroke="#2a2e39" stroke-width="1"/>
+  <rect x="100" y="164.9" width="165.3" height="65.7" fill="#787b86" fill-opacity="0.18"/>
+  <line x1="265.3" y1="60" x2="265.3" y2="430" stroke="#787b86" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <rect x="100" y="93" width="496" height="10" fill="#2962ff" fill-opacity="0.2"/>
+  <rect x="100" y="389.5" width="496" height="10" fill="#2962ff" fill-opacity="0.2"/>
+  <g stroke="#b2b5be" stroke-width="1" stroke-opacity="0.4">
+    <line x1="100" y1="99.2" x2="596" y2="99.2"/><line x1="100" y1="132" x2="596" y2="132"/>
+    <line x1="100" y1="181.3" x2="596" y2="181.3" stroke-opacity="0.25"/><line x1="100" y1="197.7" x2="596" y2="197.7" stroke-opacity="0.25"/><line x1="100" y1="214.2" x2="596" y2="214.2" stroke-opacity="0.25"/>
+    <line x1="100" y1="263.4" x2="596" y2="263.4"/><line x1="100" y1="296" x2="596" y2="296"/><line x1="100" y1="329" x2="596" y2="329"/><line x1="100" y1="362" x2="596" y2="362"/><line x1="100" y1="394.8" x2="596" y2="394.8"/>
+  </g>
+  <g stroke="#d1d4dc" stroke-width="1" stroke-opacity="0.85"><line x1="100" y1="164.9" x2="596" y2="164.9"/><line x1="100" y1="230.6" x2="596" y2="230.6"/></g>
+  <g stroke="#ff9800" stroke-width="1" stroke-dasharray="5 4" stroke-opacity="0.85"><line x1="100" y1="96.9" x2="596" y2="96.9"/><line x1="100" y1="394.4" x2="596" y2="394.4"/></g>
+  <line x1="100" y1="98" x2="596" y2="98" stroke="#2962ff" stroke-width="1.2"/>
+  <line x1="100" y1="394.6" x2="596" y2="394.6" stroke="#2962ff" stroke-width="1.2"/>
+  <g id="candles"></g>
+  <line id="lastline" x1="100" x2="596" stroke="#ef5350" stroke-width="1" stroke-dasharray="2 3"/>
+  <circle cx="416.8" cy="100" r="8" fill="none" stroke="#d1d4dc" stroke-width="1"/>
+  <text class="ts" x="416.8" y="80" text-anchor="middle" fill="#d1d4dc">Price stalls</text>
+  <g class="ts">
+    <text x="92" y="103" text-anchor="end" fill="#7ea1ff">2 (1.12676)</text>
+    <text x="92" y="136" text-anchor="end" fill="#b2b5be">1.5 (1.12530)</text>
+    <text x="92" y="169" text-anchor="end" fill="#d1d4dc">0 (1.12384)</text>
+    <text x="92" y="185" text-anchor="end" fill="#787b86">0.25 (1.12311)</text>
+    <text x="92" y="202" text-anchor="end" fill="#787b86">0.5 (1.12238)</text>
+    <text x="92" y="218" text-anchor="end" fill="#787b86">0.75 (1.12165)</text>
+    <text x="92" y="235" text-anchor="end" fill="#d1d4dc">1 (1.12092)</text>
+    <text x="92" y="267" text-anchor="end" fill="#b2b5be">1.5 (1.11946)</text>
+    <text x="92" y="300" text-anchor="end" fill="#b2b5be">2 (1.11800)</text>
+    <text x="92" y="333" text-anchor="end" fill="#b2b5be">2.5 (1.11654)</text>
+    <text x="92" y="366" text-anchor="end" fill="#b2b5be">3 (1.11508)</text>
+    <text x="92" y="399" text-anchor="end" fill="#7ea1ff">3.5 (1.11362)</text>
+  </g>
+  <text class="th" x="104" y="154" fill="#d1d4dc">Asia range · 00:00–06:00 UK · 29 pips</text>
+  <text class="ts" x="592" y="91" text-anchor="end" fill="#ff9800">15 Oct 1.5 (1.12686)</text>
+  <text class="ts" x="592" y="388" text-anchor="end" fill="#ff9800">15 Oct 1.5 (1.11364)</text>
+  <g class="ts" fill="#787b86">
+    <text x="606" y="75">1.12800</text><text x="606" y="120">1.12600</text><text x="606" y="165">1.12400</text><text x="606" y="210">1.12200</text><text x="606" y="255">1.12000</text><text x="606" y="300">1.11800</text><text x="606" y="345">1.11600</text>
+  </g>
+  <rect x="598" y="89" width="66" height="18" rx="2" fill="#2962ff"/><text class="ts" x="631" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff">1.12680</text>
+  <rect x="598" y="385.6" width="66" height="18" rx="2" fill="#2962ff"/><text class="ts" x="631" y="394.6" text-anchor="middle" dominant-baseline="central" fill="#fff">1.11363</text>
+  <rect id="lasttag" x="598" width="66" height="18" rx="2" fill="#ef5350"/><text id="lasttxt" class="ts" x="631" text-anchor="middle" dominant-baseline="central" fill="#fff"></text>
+  <text class="th" x="100" y="448" text-anchor="middle" fill="#d1d4dc">16</text>
+  <g class="ts" fill="#787b86"><text x="182.7" y="448" text-anchor="middle">03:00</text><text x="265.3" y="448" text-anchor="middle">06:00</text><text x="348" y="448" text-anchor="middle">09:00</text><text x="430.6" y="448" text-anchor="middle">12:00</text><text x="513.3" y="448" text-anchor="middle">15:00</text></g>
+  <text class="ts" x="16" y="24" fill="#d1d4dc">Euro / U.S. Dollar · 5 · OANDA</text>
+  <text id="ohlc" class="ts" x="196" y="24" fill="#ef5350"></text>
+  <text class="ts" x="16" y="42" fill="#787b86">AsianRange (D, 0000–0600)</text>
+  <g class="ts" fill="#b2b5be">
+    <line x1="16" y1="472" x2="40" y2="472" stroke="#d1d4dc" stroke-width="1"/><text x="46" y="476">Levels from this Asia range</text>
+    <line x1="236" y1="472" x2="260" y2="472" stroke="#ff9800" stroke-width="1" stroke-dasharray="5 4"/><text x="266" y="476">Levels from 15 Oct range</text>
+    <line x1="436" y1="472" x2="460" y2="472" stroke="#2962ff" stroke-width="2"/><text x="466" y="476">Confluence, within 2 pips</text>
+  </g>
+  </svg>
+  </figure>
+
+  <p><strong>This is what it looked like.</strong> On the upside, the 15th’s 1.5 extension (1.12686) and the 16th’s 2 extension (1.12675) sat about 1 pip apart. On the downside, the 15th’s 1.5 (1.11364) and the 16th’s 3.5 (1.11360) were under half a pip apart. Price rallied into the upper level around midday on the 16th and sold off from there.</p>
+  <p><strong>Why it matters.</strong> Two independent measures of recent volatility agreed on the same price. That makes it a place where a stretched move has a reason to pause, not a place price is forced to turn. You are using it as a spot to look for reversals or exhaustion, alongside what you already read on the chart.</p>
+  <div class="pull"><p>You are not predicting the turn. You are knowing where a move has already travelled as far as volatility says is typical.</p></div>
+</section>
+
+<!-- Slide 7 -->
+<section class="slide" aria-label="Slide 7" data-title="Where this needs qualifying" hidden>
+  <h2 class="slide-title" tabindex="-1">Where this needs qualifying</h2>
+  <p class="statement">The technical skills you have still matter. <em>This simply adds a second lens.</em></p>
+  <p><strong>Take away the one idea.</strong> Volatility is not random. It clusters, it follows the shape of the day, and it drifts back towards normal. Because of that, the size of what has just happened is a usable guide to the size of what comes next. That is true whether or not you ever use a single range extension.</p>
+  <div class="callout purple">
+    <p class="label">Where this needs qualifying</p>
+    <p><strong>These levels are not guaranteed turning points.</strong> Price can run straight through a confluence and keep going, and some days the volatility you measured at 06:00 is not the volatility you get at 14:00. Treat a level as a place to pay attention, not a reason to enter on its own.</p>
+    <p>This is also the simplest version of volatility modelling: one range, a few set steps and your own eyes. It is a good way to start seeing volatility, and it sits comfortably alongside everything you already know from technicals. Think of it as the first rung, not the whole ladder.</p>
+  </div>
+  <p><strong>What a more rigorous version looks like.</strong> It asks the same question, how big is the next move likely to be, but answers it with data as well as a drawn box: measured across a large sample, tested out of sample, and net of costs. The ruler on your chart builds the intuition, and the more rigorous work takes that intuition further.</p>
+  <p><strong>If this changed how you read a chart, keep going with it.</strong> Watch the Asia range tomorrow, project it, and see how far the day uses. You will learn more from ten mornings of that than from anything written here.</p>
+  <div class="pull"><p>Direction was never the only question. Now you know the other one.</p></div>
+</section>
+
+</main>
+
+<nav class="nav" aria-label="Lesson navigation">
+  <div class="nav-inner">
+    <div class="nav-buttons">
+      <button type="button" id="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back</button>
+      <button type="button" id="next">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <p class="hint">Use the arrow keys to move through the lesson</p>
+  </div>
+</nav>
+
+<script>
+(function () {
+  document.body.classList.remove('no-js');
+  document.body.classList.add('js');
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var progress = document.getElementById('progress');
+  var cur = document.getElementById('cur');
+  var tot = document.getElementById('tot');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var segs = [];
+  var index = 0;
+  tot.textContent = total;
+
+  slides.forEach(function (s, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + s.getAttribute('data-title'));
+    b.addEventListener('click', function () { go(i); });
+    progress.appendChild(b);
+    segs.push(b);
+  });
+
+  function go(i, initial) {
+    i = Math.max(0, Math.min(total - 1, i));
+    index = i;
+    slides.forEach(function (s, k) { s.hidden = k !== i; });
+    segs.forEach(function (b, k) {
+      b.classList.toggle('done', k <= i);
+      b.setAttribute('aria-selected', k === i ? 'true' : 'false');
+    });
+    cur.textContent = i + 1;
+    prev.disabled = i === 0;
+    next.disabled = i === total - 1;
+    window.scrollTo(0, 0);
+    if (history.replaceState) { history.replaceState(null, '', '#' + (i + 1)); }
+    if (!initial) {
+      var h = slides[i].querySelector('.slide-title');
+      if (h) { h.focus({ preventScroll: true }); }
+    }
+  }
+
+  prev.addEventListener('click', function () { go(index - 1); });
+  next.addEventListener('click', function () { go(index + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) { return; }
+    if (e.key === 'ArrowRight') { go(index + 1); }
+    else if (e.key === 'ArrowLeft') { go(index - 1); }
+  });
+
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) { return; }
+    var dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) > 70) { go(index + (dx < 0 ? 1 : -1)); }
+  }, { passive: true });
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  go(isNaN(start) ? 0 : start - 1, true);
+
+  /* Schematic 5 minute candles for the slide 6 chart (seeded, so identical on every load) */
+  var seed = 7;
+  function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  function randn() { var u = rnd() || 1e-9, v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+  var W = [[0,1.12220],[10,1.12300],[22,1.12384],[34,1.12250],[44,1.12150],[52,1.12092],[62,1.12170],[71,1.12240],[72,1.12235],[96,1.12290],[110,1.12370],[124,1.12470],[138,1.12665],[142,1.12580],[150,1.12440],[160,1.12290],[175,1.12230],[195,1.12260],[215,1.12240]];
+  function target(i) { for (var k = 0; k < W.length - 1; k++) { if (i >= W[k][0] && i <= W[k + 1][0]) { var a = W[k], b = W[k + 1]; return a[1] + (b[1] - a[1]) * (i - a[0]) / (b[0] - a[0] || 1); } } return W[W.length - 1][1]; }
+  function Y(p) { return 60 + (1.1285 - p) * 22500; }
+  var lo = 1.12092, hi = 1.12384, prevC = 1.12220, out = '', last = null;
+  for (var i = 0; i < 216; i++) {
+    var asia = i < 72, sd = asia ? 0.00006 : (i < 110 ? 0.00012 : (i < 146 ? 0.00018 : 0.00012));
+    var o = prevC, c = target(i) + randn() * sd;
+    if (asia) { c = Math.max(lo + 0.00001, Math.min(hi - 0.00001, c)); }
+    if (i === 22) { c = hi; o = hi - 0.00006; }
+    if (i === 52) { c = lo; o = lo + 0.00006; }
+    var bt = Math.max(o, c), bb = Math.min(o, c), w = asia ? 0.00008 : 0.00013;
+    var h = bt + rnd() * w, l = bb - rnd() * w;
+    if (i === 138) { h = 1.12668; }
+    var up = c >= o, col = up ? '#26a69a' : '#ef5350', x = 100 + i * 2.296 + 1.15;
+    out += '<line x1="' + x.toFixed(2) + '" x2="' + x.toFixed(2) + '" y1="' + Y(h).toFixed(1) + '" y2="' + Y(l).toFixed(1) + '" stroke="' + col + '" stroke-width="0.8"/><rect x="' + (x - 0.9).toFixed(2) + '" y="' + Y(bt).toFixed(1) + '" width="1.8" height="' + Math.max(0.6, Y(bb) - Y(bt)).toFixed(1) + '" fill="' + col + '"/>';
+    prevC = c; last = { o: o, h: h, l: l, c: c, col: col };
+  }
+  document.getElementById('candles').innerHTML = out;
+  var ly = Y(last.c);
+  var ll = document.getElementById('lastline'); ll.setAttribute('y1', ly); ll.setAttribute('y2', ly);
+  document.getElementById('lasttag').setAttribute('y', ly - 9);
+  var lt = document.getElementById('lasttxt'); lt.setAttribute('y', ly); lt.textContent = last.c.toFixed(5);
+  var ot = document.getElementById('ohlc'); ot.setAttribute('fill', last.col);
+  ot.textContent = 'O' + last.o.toFixed(5) + '  H' + last.h.toFixed(5) + '  L' + last.l.toFixed(5) + '  C' + last.c.toFixed(5);
+})();
+</script>
+</body>
+</html>
