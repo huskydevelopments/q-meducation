@@ -2,8 +2,8 @@
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Other Question | ColezTrades</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Understanding Volatility | ColezTrades</title>
 <meta name="description" content="Direction is hard to predict. Size is easier. A plain-English introduction to volatility for technical traders.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +40,7 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
 
 .topbar {
-  position: sticky; top: 0; z-index: 10;
+  position: sticky; top: 0; z-index: 10; padding-top: env(safe-area-inset-top, 0px);
   background: rgba(5, 8, 16, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -130,7 +130,7 @@ p strong { color: var(--strong); font-weight: 500; }
 
 .nav {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none;
-  padding: 72px 24px 24px;
+  padding: 72px 24px calc(24px + env(safe-area-inset-bottom, 0px));
   background: linear-gradient(to top, var(--bg) 52%, rgba(5, 8, 16, 0));
 }
 .nav-inner { max-width: 760px; margin: 0 auto; }
@@ -158,6 +158,27 @@ p strong { color: var(--strong); font-weight: 500; }
   .nav { padding: 56px 16px 16px; }
   .hint { display: none; }
 }
+.holiday { margin: 40px 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 26px 28px; }
+.holiday p { margin: 0; }
+.hol-title { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--strong); line-height: 1.2; margin-bottom: 10px; }
+.hol-intro { font-size: 16px; margin-bottom: 20px !important; }
+.hol-row { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; background: #0c1324; }
+.hol-row.best { border-color: #2f4d8f; background: #0e1a33; }
+.hol-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; margin-bottom: 12px; }
+.hol-name { font-size: 17px; font-weight: 500; color: var(--strong); display: flex; align-items: center; gap: 12px; }
+.hol-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); border: 1px solid #2f4d8f; border-radius: 6px; padding: 2px 8px; }
+.hol-tally { font-size: 15px; color: var(--strong); }
+.hol-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.hol-day { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 4px 8px; border-radius: 10px; background: #111a2e; border: 1px solid #1a2542; }
+.hol-day svg { width: 30px; height: 30px; }
+.hol-day.sun { color: #f2b84b; }
+.hol-day.cloud { color: #8b97b3; }
+.hol-day.rain { color: #6ea0ff; }
+.hol-day span:not(.sr) { font-size: 12px; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.hol-take { margin-top: 20px !important; font-size: 16px; }
+.hol-note { margin-top: 12px !important; font-size: 14px; color: var(--muted); }
+@media (max-width: 700px) { .holiday { padding: 20px 16px; } .hol-row { padding: 14px 12px; } .hol-day svg { width: 24px; height: 24px; } }
 .no-js .slide[hidden] { display: block; }
 </style>
 </head>
@@ -170,7 +191,7 @@ p strong { color: var(--strong); font-weight: 500; }
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         <span class="txt">The bank</span>
       </a>
-      <div class="lesson-title">The Other Question</div>
+      <div class="lesson-title">Understanding Volatility</div>
       <div class="counter" aria-live="polite"><span id="cur">1</span> / <span id="tot">7</span></div>
     </div>
     <div class="progress" id="progress" role="tablist" aria-label="Lesson progress"></div>
@@ -199,7 +220,7 @@ p strong { color: var(--strong); font-weight: 500; }
     <p class="label">Why you were taught it this way</p>
     <p>Because technical analysis grew up around one question, which is where price is and where it might turn. Volatility is a different question, and most technical material never asks it. It is not that anyone hid it from you. It sits outside the toolkit you were handed.</p>
   </div>
-  <p><strong>This module is not about predicting the outcome of high impact data releases and news events. That is a losing game. However, we can learn to model past volatility to make predictions about what's to come.</strong> Moves that looked random start to look like they belong to a pattern. That is where the next slide begins.</p>
+  <p><strong>This module is not about predicting the outcome of high impact data releases and news events. That is a losing game. However, we can learn to model past volatility to make predictions about what’s to come.</strong> Moves that looked random start to look like they belong to a pattern. That is where the next slide begins.</p>
 </section>
 
 <!-- Slide 3 -->
@@ -209,6 +230,21 @@ p strong { color: var(--strong); font-weight: 500; }
   <p><strong>Think about the weather.</strong> Nobody can promise whether it will rain at 3pm on a given Thursday. But if the last four days have been stormy, you would not plan a barbecue. Rough weather tends to hang around, and calm weather tends to as well. You are not predicting the exact event. You are reading the conditions.</p>
   <p><strong>Markets behave the same way.</strong> Big moves tend to be followed by more big moves, and quiet stretches tend to be followed by more quiet. This is called volatility clustering. It is one of the most consistently observed features of markets, and it is the reason size is easier to anticipate than direction.</p>
   <div class="pull"><p>A big move is a clue about the next move’s size, even though it tells you nothing about its direction.</p></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7.2 9.2 4.4 4.4 0 0 0 7 18z" fill="currentColor"/></symbol>
+    <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 13.5h10a3.6 3.6 0 0 0 .5-7.15A5 5 0 0 0 7.2 5.7 4 4 0 0 0 7 13.5z" fill="currentColor"/><path d="M8.5 16.5l-1 3M12.5 16.5l-1 3M16.5 16.5l-1 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+  </svg>
+  <div class="holiday" role="group" aria-label="Choosing a June holiday using five years of weather history">
+    <div class="hol-title">Choosing a June holiday</div>
+    <p class="hol-intro">You want sun and little rain. Nobody can tell you the weather on a given day in June, so you look at how each place has behaved over the last five Junes.</p>
+    <div class="hol-row best"><div class="hol-head"><div class="hol-name">Spain<span class="hol-tag">Best bet</span></div><div class="hol-tally">Sunny in 4 of 5 Junes</div></div><div class="hol-days"><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2022</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2023</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2024</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2025</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2026</span></div></div></div>
+    <div class="hol-row"><div class="hol-head"><div class="hol-name">Italy</div><div class="hol-tally">Sunny in 3 of 5 Junes</div></div><div class="hol-days"><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2022</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2023</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2024</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2025</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2026</span></div></div></div>
+    <div class="hol-row"><div class="hol-head"><div class="hol-name">Ireland</div><div class="hol-tally">Sunny in 1 of 5 Junes</div></div><div class="hol-days"><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2022</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2023</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2024</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2025</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2026</span></div></div></div>
+    <p class="hol-take"><strong>You pick Spain.</strong> You are not predicting the weather on 14 June. You are using the past to judge the odds. Traders do the same with volatility: how big recent ranges have been tells you what kind of day to expect.</p>
+    <p class="hol-note">Illustrative example, not real weather records.</p>
+  </div>
   <p><strong>This is why NFP feels like lightning but is not.</strong> The calm before a major release is not random calm. It is a known quiet before a known event, and what comes after tends to be wide, not narrow.</p>
   <p><strong>Direction is far less predictable.</strong> A big green candle gives you little reliable information about whether the next one is green. But a big candle does make a big next candle more likely. That asymmetry is the whole opportunity.</p>
 </section>
