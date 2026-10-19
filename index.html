@@ -158,27 +158,15 @@ p strong { color: var(--strong); font-weight: 500; }
   .nav { padding: 56px 16px 16px; }
   .hint { display: none; }
 }
-.holiday { margin: 40px 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 26px 28px; }
-.holiday p { margin: 0; }
-.hol-title { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--strong); line-height: 1.2; margin-bottom: 10px; }
-.hol-intro { font-size: 16px; margin-bottom: 20px !important; }
-.hol-row { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; background: #0c1324; }
-.hol-row.best { border-color: #2f4d8f; background: #0e1a33; }
-.hol-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; margin-bottom: 12px; }
-.hol-name { font-size: 17px; font-weight: 500; color: var(--strong); display: flex; align-items: center; gap: 12px; }
-.hol-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); border: 1px solid #2f4d8f; border-radius: 6px; padding: 2px 8px; }
-.hol-tally { font-size: 15px; color: var(--strong); }
-.hol-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-.hol-day { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 4px 8px; border-radius: 10px; background: #111a2e; border: 1px solid #1a2542; }
-.hol-day svg { width: 30px; height: 30px; }
-.hol-day.sun { color: #f2b84b; }
-.hol-day.cloud { color: #8b97b3; }
-.hol-day.rain { color: #6ea0ff; }
-.hol-day span:not(.sr) { font-size: 12px; color: var(--muted); }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-.hol-take { margin-top: 20px !important; font-size: 16px; }
-.hol-note { margin-top: 12px !important; font-size: 14px; color: var(--muted); }
-@media (max-width: 700px) { .holiday { padding: 20px 16px; } .hol-row { padding: 14px 12px; } .hol-day svg { width: 24px; height: 24px; } }
+.illus { margin: 40px 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 26px 28px; }
+.illus p { margin: 0; }
+.illus-title { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--strong); line-height: 1.2; margin-bottom: 14px; }
+.illus-chart { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.illus-chart svg { display: block; width: 100%; min-width: 400px; height: auto; }
+.illus-chart svg text { font: 400 13px var(--sans); }
+.illus-take { margin-top: 18px !important; font-size: 16px; }
+.illus-note { margin-top: 12px !important; font-size: 14px; color: var(--muted); }
+@media (max-width: 700px) { .illus { padding: 20px 16px; } .illus-chart svg { min-width: 0; } .illus-chart svg text { font-size: 15px; } }
 .no-js .slide[hidden] { display: block; }
 </style>
 </head>
@@ -207,14 +195,14 @@ p strong { color: var(--strong); font-weight: 500; }
   <p><strong>You spend hours on end trying to answer the most difficult question.</strong> Every chart you open asks the same thing: up or down? It is the question the whole industry is built around, and it is the one that is hardest to answer well. Even professionals are wrong about direction far more often than they would like to admit.</p>
   <p><strong>There is a second question, and it is quieter.</strong> How much is price likely to move? Not which way, just how big. That question has a surprising amount of structure in it, and it is the subject of this lesson.</p>
   <div class="pull"><p>You cannot say which way. You can often say how far.</p></div>
-  <p>You already know what a big move looks like, because you have watched one after NFP. This lesson is about the part you have not been shown: the size of a move is not random. It leaves clues before it arrives.</p>
+  <p>You already know what a big move looks like. This lesson is about the part you have not been shown: on a normal day, with no headline in sight, the size of a move is not random. It leaves clues before it arrives.</p>
 </section>
 
 <!-- Slide 2 -->
 <section class="slide" aria-label="Slide 2" data-title="Why volatility feels like something that happens to you" hidden>
   <h2 class="slide-title" tabindex="-1">Why volatility feels like something that happens to you</h2>
   <p class="statement">If volatility has only ever caused you to be wicked out on news, caused you to lose more than your stop loss indicated or invalidated your levels, <em>that is not your fault</em>.</p>
-  <p><strong>Most traders see volatility as an event.</strong> Price is quiet, then NFP prints, and candles stretch off the screen. Nothing warned you, so it feels like lightning from a clear sky. Afterwards you either got caught on the wrong side or watched it go without you.</p>
+  <p><strong>Most traders see volatility as an event.</strong> Price is quiet, then candles stretch off the screen. Nothing warned you, so it feels like lightning from a clear sky. Afterwards you either got caught on the wrong side or watched it go without you.</p>
   <p><strong>A candlestick chart is built to show you price, not the size of moves over time and sessions.</strong> Support, resistance, patterns and trendlines all answer where price is. None of them tell you how much room price is likely to use. So the size of the next move never gets looked at, and it stays invisible until it has already happened.</p>
   <div class="callout amber">
     <p class="label">Why you were taught it this way</p>
@@ -224,28 +212,21 @@ p strong { color: var(--strong); font-weight: 500; }
 </section>
 
 <!-- Slide 3 -->
-<section class="slide" aria-label="Slide 3" data-title="Storms follow storms" hidden>
-  <h2 class="slide-title" tabindex="-1">Storms follow storms</h2>
-  <p class="statement">You cannot forecast Thursday’s rain. <em>You can tell it has been a rough week.</em></p>
-  <p><strong>Think about the weather.</strong> Nobody can promise whether it will rain at 3pm on a given Thursday. But if the last four days have been stormy, you would not plan a barbecue. Rough weather tends to hang around, and calm weather tends to as well. You are not predicting the exact event. You are reading the conditions.</p>
+<section class="slide" aria-label="Slide 3" data-title="Busy roads stay busy" hidden>
+  <h2 class="slide-title" tabindex="-1">Busy roads stay busy</h2>
+  <p class="statement">You cannot predict which driver will brake. <em>You can tell it is going to be a slow morning.</em></p>
+  <p><strong>Think about your commute.</strong> Nobody can tell you which car will brake suddenly or which light will catch you out. But you know 8am will be slow, and if the last three mornings were gridlocked, you leave early on the fourth. You are not predicting the exact event. You are reading the conditions.</p>
   <p><strong>Markets behave the same way.</strong> Big moves tend to be followed by more big moves, and quiet stretches tend to be followed by more quiet. This is called volatility clustering. It is one of the most consistently observed features of markets, and it is the reason size is easier to anticipate than direction.</p>
   <div class="pull"><p>A big move is a clue about the next move’s size, even though it tells you nothing about its direction.</p></div>
 
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
-    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7.2 9.2 4.4 4.4 0 0 0 7 18z" fill="currentColor"/></symbol>
-    <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 13.5h10a3.6 3.6 0 0 0 .5-7.15A5 5 0 0 0 7.2 5.7 4 4 0 0 0 7 13.5z" fill="currentColor"/><path d="M8.5 16.5l-1 3M12.5 16.5l-1 3M16.5 16.5l-1 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
-  </svg>
-  <div class="holiday" role="group" aria-label="Choosing a June holiday using five years of weather history">
-    <div class="hol-title">Choosing a June holiday</div>
-    <p class="hol-intro">You want sun and little rain. Nobody can tell you the weather on a given day in June, so you look at how each place has behaved over the last five Junes.</p>
-    <div class="hol-row best"><div class="hol-head"><div class="hol-name">Spain<span class="hol-tag">Best bet</span></div><div class="hol-tally">Sunny in 4 of 5 Junes</div></div><div class="hol-days"><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2022</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2023</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2024</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2025</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2026</span></div></div></div>
-    <div class="hol-row"><div class="hol-head"><div class="hol-name">Italy</div><div class="hol-tally">Sunny in 3 of 5 Junes</div></div><div class="hol-days"><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2022</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2023</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2024</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2025</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2026</span></div></div></div>
-    <div class="hol-row"><div class="hol-head"><div class="hol-name">Ireland</div><div class="hol-tally">Sunny in 1 of 5 Junes</div></div><div class="hol-days"><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2022</span></div><div class="hol-day cloud"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg><span class="sr">cloudy, </span><span>2023</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2024</span></div><div class="hol-day sun"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"/></svg><span class="sr">sunny, </span><span>2025</span></div><div class="hol-day rain"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg><span class="sr">rainy, </span><span>2026</span></div></div></div>
-    <p class="hol-take"><strong>You pick Spain.</strong> You are not predicting the weather on 14 June. You are using the past to judge the odds. Traders do the same with volatility: how big recent ranges have been tells you what kind of day to expect.</p>
-    <p class="hol-note">Illustrative example, not real weather records.</p>
+  <div class="illus" role="group" aria-label="Your commute over five mornings">
+    <div class="illus-title">Your commute, five mornings</div>
+    <div class="illus-chart"><svg viewBox="0 0 480 262" role="img" aria-labelledby="cmt cmd"><title id="cmt">Journey times for four mornings and the likely range for Friday</title><desc id="cmd">Monday took 24 minutes. Tuesday, Wednesday and Thursday took 41, 47 and 44 minutes. Friday is shown as a dashed box covering roughly 38 to 50 minutes, because three slow mornings in a row make a slow fourth likely, even though you cannot say which car will brake.</desc><text x="4" y="14" fill="#aab3c5">Journey time (minutes)</text><line x1="0" x2="480" y1="215.5" y2="215.5" stroke="#1a2236"/><rect x="24" y="143.0" width="48" height="72.0" rx="2" fill="#6ea0ff" fill-opacity="0.85"/><text x="48" y="137.0" text-anchor="middle" fill="#aab3c5">24</text><text x="48" y="235" text-anchor="middle" fill="#aab3c5">Mon</text><rect x="120" y="92.0" width="48" height="123.0" rx="2" fill="#6ea0ff" fill-opacity="0.85"/><text x="144" y="86.0" text-anchor="middle" fill="#aab3c5">41</text><text x="144" y="235" text-anchor="middle" fill="#aab3c5">Tue</text><rect x="216" y="74.0" width="48" height="141.0" rx="2" fill="#6ea0ff" fill-opacity="0.85"/><text x="240" y="68.0" text-anchor="middle" fill="#aab3c5">47</text><text x="240" y="235" text-anchor="middle" fill="#aab3c5">Wed</text><rect x="312" y="83.0" width="48" height="132.0" rx="2" fill="#6ea0ff" fill-opacity="0.85"/><text x="336" y="77.0" text-anchor="middle" fill="#aab3c5">44</text><text x="336" y="235" text-anchor="middle" fill="#aab3c5">Thu</text><line x1="384" x2="384" y1="30" y2="215" stroke="#6b7690" stroke-dasharray="4 4"/><rect x="408" y="65.0" width="48" height="36.0" rx="3" fill="#6ea0ff" fill-opacity="0.18" stroke="#6ea0ff" stroke-dasharray="4 3"/><text x="432" y="59.0" text-anchor="middle" fill="#aab3c5">38–50</text><text x="240" y="44" text-anchor="middle" fill="#f4f6fb">Three slow mornings in a row</text><text x="476" y="14" text-anchor="end" fill="#f2b84b">Which car brakes?</text><text x="432" y="235" text-anchor="middle" fill="#aab3c5">Fri</text><text x="432" y="251" text-anchor="middle" fill="#6b7690">likely range</text></svg></div>
+    <p class="illus-take"><strong>You leave early.</strong> You are not predicting the red light. You are using the last few mornings to judge how long the road will take. Traders do the same with volatility: how big recent ranges have been tells you what kind of day to expect.</p>
+    <p class="illus-note">Illustrative example, not real traffic data.</p>
   </div>
-  <p><strong>This is why NFP feels like lightning but is not.</strong> The calm before a major release is not random calm. It is a known quiet before a known event, and what comes after tends to be wide, not narrow.</p>
+
+  <p><strong>This is why a normal day is more predictable than it looks.</strong> The Asian session is usually quiet, London and New York are where the energy is released, and that rhythm repeats day after day, with no headline needed.</p>
   <p><strong>Direction is far less predictable.</strong> A big green candle gives you little reliable information about whether the next one is green. But a big candle does make a big next candle more likely. That asymmetry is the whole opportunity.</p>
 </section>
 
